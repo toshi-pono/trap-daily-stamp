@@ -107,10 +107,10 @@ async def on_dm_created(payload) -> None:
 def run_scheduler():
     # スケジューラーを設定
     # 毎分実行（開発用）
-    schedule.every(1).minutes.do(run_update_script)
+    # schedule.every(1).minutes.do(run_update_script)
     
-    # 将来的に毎時00分に実行する場合の設定（コメントアウト）
-    # schedule.every().hour.at(":00").do(run_update_script)
+    # 将来的に毎時00分に実行する場合の設定
+    schedule.every().hour.at(":00").do(run_update_script)
     
     # 起動時に1回だけスクリプトを実行して最新の状態に更新する
     run_update_script()
