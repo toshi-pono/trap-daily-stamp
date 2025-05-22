@@ -1,5 +1,9 @@
+import io
 import json
 import os
+import time
+import threading
+import schedule
 from aiotraq import Client
 from aiotraq_bot import TraqHttpBot
 from aiotraq_message import TraqMessage, TraqMessageManager
@@ -7,8 +11,8 @@ from aiotraq.api.stamp import get_stamps, get_stamp_image, change_stamp_image
 from aiotraq.models import ChangeStampImageBody
 from aiotraq.types import File
 import dotenv
-from crontab import CronTab
-import subprocess
+from datetime import datetime, timedelta, timezone
+
 
 dotenv.load_dotenv()
 # BOTにない権限を使うのでとりあえずUserCookieを使う
@@ -17,7 +21,6 @@ base_url = os.getenv("BASE_URL")
 
 bot = TraqHttpBot(verification_token=os.getenv("BOT_VERIFICATION_TOKEN"))
 response = TraqMessageManager(bot, os.getenv("BOT_ACCESS_TOKEN"), base_url, os.getenv("BASE_APP_URL"))
-
 stamp_config_filename = os.path.join(os.path.dirname(__file__), "stamp_config.json")
 with open(stamp_config_filename, "r") as f:
     stamp_config = json.load(f)
@@ -101,26 +104,79 @@ async def on_dm_created(payload) -> None:
         await response(eat_component, channnel_id=channel_id, payload=message)
 
 
-def register_cron_job():
-    cron = CronTab(user=True)
-    target_file = os.path.join(os.path.dirname(__file__), "update.py")
-    job = cron.new(command=f'python {target_file}')
-    job.minute.every(1) # TODO: あとで時間指定する
-    cron.write()
-    print("Cron job created.")
+def run_scheduler():
+    # スケジューラーを設定
+    # 毎分実行（開発用）
+    schedule.every(1).minutes.do(run_update_script)
+    
+    # 将来的に毎時00分に実行する場合の設定（コメントアウト）
+    # schedule.every().hour.at(":00").do(run_update_script)
+    
+    # 起動時に1回だけスクリプトを実行して最新の状態に更新する
+    run_update_script()
+    
+    # スケジューラーをバックグラウンドで実行
+    scheduler_thread = threading.Thread(target=run_scheduler_thread, daemon=True)
+    scheduler_thread.start()
+    print("Scheduler started.")
 
-def update_stamp_image():
-    # 起動時に1回だけcronのスクリプトを実行して最新の状態に更新する
-    try:
-        update_script = os.path.join(os.path.dirname(__file__), "update.py")
-        subprocess.run(["python", update_script], check=True)
-        print("Successfully updated stamp image on startup.")
-    except subprocess.SubprocessError as e:
-        print(f"Failed to update stamp image on startup: {e}")
+def run_scheduler_thread():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
+def run_update_script():
+    jst = timezone(timedelta(hours=9), name="Asia/Tokyo")
+    now = datetime.now(jst)
+    print(f"Month: {now.month}, Day: {now.day}, Date: {now.weekday()}, Hour: {now.hour}, Minute: {now.minute}")
+    
+    update_target = {
+        "day": now.weekday(),
+        "date": now.day,
+        "hour": now.hour,
+        "month": now.month,
+    }
+    for target, value in update_target.items():
+        if target not in stamp_config:
+            print(f"Error: {target} not found in stamp_config.json")
+            return
+        
+        stamp_id = stamp_config[target]
+        stamp_image = os.path.join(os.path.dirname(__file__), "assets", target, f"{target}{value}.png")
+        if not os.path.exists(stamp_image):
+            print(f"Error: {stamp_image} not found")
+            return
+        
+        with open(stamp_image, "rb") as image_file:
+            image_data = image_file.read()
+            binary_io = io.BytesIO(image_data)
+
+        client = Client(base_url, cookies={
+            "r_session": secret_cookie
+        })
+        with client as c:
+            body = ChangeStampImageBody(
+                File(
+                    payload=binary_io,
+                    file_name=f"{target}{value}.png",
+                    mime_type="image/png"
+                )
+            )
+
+            response = change_stamp_image.sync_detailed(
+                stamp_id=stamp_id,
+                client=c,
+                body=body
+            )
+            print(response.status_code)
+            print(response.parsed)
+            if response.status_code == 204:
+                print(f"{target} image updated successfully.")
+            else:
+                print(f"Failed to update {target} image: {response.status_code}")
+    print("Update script executed.")
 
 
 if __name__ == "__main__":
-    register_cron_job()
-    update_stamp_image()
+    run_scheduler()
     bot.run(port=8080)

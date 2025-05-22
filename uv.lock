@@ -465,18 +465,6 @@ wheels = [
 ]
 
 [[package]]
-name = "python-crontab"
-version = "3.2.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "python-dateutil" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e2/f0/25775565c133d4e29eeb607bf9ddba0075f3af36041a1844dd207881047f/python_crontab-3.2.0.tar.gz", hash = "sha256:40067d1dd39ade3460b2ad8557c7651514cd3851deffff61c5c60e1227c5c36b", size = 57001 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3b/91/832fb3b3a1f62bd2ab4924f6be0c7736c9bc4f84d3b153b74efcf6d4e4a1/python_crontab-3.2.0-py3-none-any.whl", hash = "sha256:82cb9b6a312d41ff66fd3caf3eed7115c28c195bfb50711bc2b4b9592feb9fe5", size = 27351 },
-]
-
-[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 source = { registry = "https://pypi.org/simple" }
@@ -551,6 +539,15 @@ wheels = [
 ]
 
 [[package]]
+name = "schedule"
+version = "1.2.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0c/91/b525790063015759f34447d4cf9d2ccb52cdee0f1dd6ff8764e863bcb74c/schedule-1.2.2.tar.gz", hash = "sha256:15fe9c75fe5fd9b9627f3f19cc0ef1420508f9f9a46f45cd0769ef75ede5f0b7", size = 26452 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/20/a7/84c96b61fd13205f2cafbe263cdb2745965974bdf3e0078f121dfeca5f02/schedule-1.2.2-py3-none-any.whl", hash = "sha256:5bef4a2a0183abf44046ae0d164cadcac21b1db011bdd8102e4a0c1e91e06a7d", size = 12220 },
+]
+
+[[package]]
 name = "six"
 version = "1.17.0"
 source = { registry = "https://pypi.org/simple" }
@@ -597,8 +594,8 @@ dependencies = [
     { name = "aiotraq" },
     { name = "aiotraq-bot" },
     { name = "aiotraq-message" },
-    { name = "python-crontab" },
     { name = "python-dotenv" },
+    { name = "schedule" },
 ]
 
 [package.metadata]
@@ -606,8 +603,8 @@ requires-dist = [
     { name = "aiotraq", specifier = ">=0.2.4" },
     { name = "aiotraq-bot", specifier = ">=0.2.4" },
     { name = "aiotraq-message", specifier = ">=0.2.4" },
-    { name = "python-crontab", specifier = ">=3.2.0" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
+    { name = "schedule", specifier = ">=1.2.2" },
 ]
 
 [[package]]

@@ -55,13 +55,10 @@ pydantic==2.11.4
     # via fastapi
 pydantic-core==2.33.2
     # via pydantic
-python-crontab==3.2.0
-    # via trap-daily-stamp (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via
     #   aiotraq
     #   pandas
-    #   python-crontab
 python-dotenv==1.1.0
     # via
     #   trap-daily-stamp (pyproject.toml)
@@ -70,6 +67,8 @@ pytz==2025.2
     # via pandas
 pyyaml==6.0.2
     # via uvicorn
+schedule==1.2.2
+    # via trap-daily-stamp (pyproject.toml)
 six==1.17.0
     # via python-dateutil
 sniffio==1.3.1
