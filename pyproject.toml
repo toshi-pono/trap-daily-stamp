@@ -1,0 +1,16 @@
+[project]
+name = "trap-daily-stamp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "aiotraq>=0.2.4",
+    "aiotraq-bot>=0.2.4",
+    "aiotraq-message>=0.2.4",
+    "python-crontab>=3.2.0",
+    "python-dotenv>=1.1.0",
+]
+
+[tool.mypy]
+ignore_missing_imports = true

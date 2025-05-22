@@ -1,0 +1,1 @@
+# trap daily stamp
