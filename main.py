@@ -36,13 +36,13 @@ with open(stamp_config_filename, "r") as f:
 def is_now_task(message: str) -> bool:
     return "/now" in message
 
-def now_component(am: TraqMessage):
+async def now_component(am: TraqMessage):
     am.write(":today_month::today_date::today_day::today_hour:")
 
 def is_update_task(message: str) -> bool:
     return "/update" in message
 
-def update_component(am: TraqMessage):
+async def update_component(am: TraqMessage):
     with am.spinner("Updating..."):
         message = update_stamp_image()
     
@@ -50,7 +50,7 @@ def update_component(am: TraqMessage):
     am.write(message)
 
 
-def help_component(am: TraqMessage):
+async def help_component(am: TraqMessage):
     am.write("`/now`で現在の月、日、曜日、時間を表示します。")
     am.write("`/update`で強制的にスタンプの更新を実行します")
     am.write("`/help`でこのメッセージを表示します。")
