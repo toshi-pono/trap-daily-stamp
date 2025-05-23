@@ -8,6 +8,7 @@ dependencies = [
     "aiotraq>=0.2.4",
     "aiotraq-bot>=0.2.4",
     "aiotraq-message>=0.2.4",
+    "httpx>=0.27.2",
     "python-dotenv>=1.1.0",
     "schedule>=1.2.2",
 ]

@@ -594,6 +594,7 @@ dependencies = [
     { name = "aiotraq" },
     { name = "aiotraq-bot" },
     { name = "aiotraq-message" },
+    { name = "httpx" },
     { name = "python-dotenv" },
     { name = "schedule" },
 ]
@@ -603,6 +604,7 @@ requires-dist = [
     { name = "aiotraq", specifier = ">=0.2.4" },
     { name = "aiotraq-bot", specifier = ">=0.2.4" },
     { name = "aiotraq-message", specifier = ">=0.2.4" },
+    { name = "httpx", specifier = ">=0.27.2" },
     { name = "python-dotenv", specifier = ">=1.1.0" },
     { name = "schedule", specifier = ">=1.2.2" },
 ]
