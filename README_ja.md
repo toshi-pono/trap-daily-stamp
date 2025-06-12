@@ -23,7 +23,7 @@ trap daily stampは、スタンプ画像を定期的に更新することで時�
 
 このアプリケーションはtraPの部内PaaSであるNeoShowcaseにデプロイすることを想定しています。
 
-### 🔧 前提条件
+### 🔧 事前準備
 
 1. requirements.txtの生成:
 ```bash
