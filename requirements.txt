@@ -49,7 +49,7 @@ numpy==1.26.4
     # via
     #   aiotraq-message
     #   pandas
-pandas==2.2.3
+pandas==2.3.0
     # via aiotraq-message
 pillow==10.4.0
     # via aiotraq-message
@@ -81,7 +81,7 @@ starlette==0.46.2
     # via fastapi
 tabulate==0.9.0
     # via aiotraq-message
-typing-extensions==4.13.2
+typing-extensions==4.14.0
     # via
     #   anyio
     #   exceptiongroup
@@ -94,7 +94,7 @@ typing-inspection==0.4.1
     # via pydantic
 tzdata==2025.2
     # via pandas
-uvicorn==0.34.2
+uvicorn==0.34.3
     # via aiotraq-bot
 uvloop==0.21.0
     # via uvicorn
